@@ -11,6 +11,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 
 import java.util.Collections;
 import java.util.List;
@@ -52,5 +54,17 @@ public class GlobalControllerAdvice {
         return new ResponseEntity<>(errorMessage,  HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(RestClientException.class)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ErrorMessage> handleRestClientException(RestClientException ex) {
+        ErrorMessage errorMessage;
+        errorMessage = new ErrorMessage(Collections.singletonList(ex.getMessage()));
+        return new ResponseEntity<>(errorMessage,  HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<String> handleHttpClientErrorException(HttpClientErrorException ex) {
+        return new ResponseEntity<>( ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
 }

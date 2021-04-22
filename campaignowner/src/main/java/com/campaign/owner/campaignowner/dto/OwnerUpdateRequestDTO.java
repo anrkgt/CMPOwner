@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class OwnerUpdateRequestDTO {
-    @NotBlank(message = ErrorConstants.VALID_CONTACT)
     private String contact;
 
     @NotEmpty(message = ErrorConstants.VALID_LIST_OF_CHANNELS)
